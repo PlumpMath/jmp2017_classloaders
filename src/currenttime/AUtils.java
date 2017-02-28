@@ -1,4 +1,4 @@
-package app.plugins.currenttime;
+package app.plugin;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

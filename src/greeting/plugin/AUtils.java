@@ -1,4 +1,4 @@
-package app.plugins.greeting;
+package app.plugin;
 
 import app.constants.ConfigConstants;
 

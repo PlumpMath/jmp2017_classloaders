@@ -9,19 +9,15 @@ import java.util.HashMap;
  * Created by Ihar_Rubanovich on 2/23/2017.
  */
 public class PluginLoader extends ClassLoader {
-    private HashMap<String, Class<?>> cache = new HashMap<String, Class<?>>();
-
-
-
+    private HashMap<String, byte[]> cacheData = new HashMap<String, byte[]>();
 
     @Override
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
-        Class<?> loadClass = cache.get(name);
-
-        if (loadClass == null) {
-            loadClass = super.loadClass(name);
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        byte[] clazz = cacheData.get(name);
+        if (clazz != null) {
+            return defineClass(name, clazz, 0, clazz.length);
         }
-        return loadClass;
+        return super.findClass(name);
     }
 
     public void loadPlugin(String pathToPlugin, String packageName, String strPluginFileName) throws IOException, ClassNotFoundException {
@@ -33,8 +29,7 @@ public class PluginLoader extends ClassLoader {
                     byte[] classData = loadClassData(f);
                     if (classData != null) {
                         String name = packageName + "." + f.getName().replace('/', '.').substring(0, f.getName().length() - 6);
-                        Class<?> clazz = defineClass(name, classData, 0, classData.length);
-                        cache.put(clazz.getName(), clazz);
+                        cacheData.put(name,loadClassData(f));
                     }
                 }
             }

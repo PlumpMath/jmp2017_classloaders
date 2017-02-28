@@ -18,7 +18,6 @@ public class PluginsExecutor {
     private ProppertiesInit pi;
 
     private void pluginInit() {
-        pl = new PluginLoader();
         propsInit();
 
     }
@@ -37,6 +36,7 @@ public class PluginsExecutor {
 
     private void showPlugin(String pluginPath, String pluginCurrentPack, String pluginClass) {
         try {
+            pl = new PluginLoader();
             pl.loadPlugin(getPropValue(pluginPath), getPropValue(pluginCurrentPack), getPropValue(pluginClass));
             String pack= getPropValue(pluginCurrentPack);
             String plugClass = getPropValue(pluginClass);
